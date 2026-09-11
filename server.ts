@@ -9,13 +9,13 @@ const ASSETS: Record<string, { file: string; contentType: string }> = {
   "/app.css": { file: "app.css", contentType: "text/css; charset=utf-8" },
   "/app.js": { file: "app.js", contentType: "application/javascript; charset=utf-8" },
   "/settings.js": { file: "settings.js", contentType: "application/javascript; charset=utf-8" },
-  "/icon.svg": { file: "icon.svg", contentType: "image/svg+xml" },
-  "/favicon-16.png": { file: "favicon-16.png", contentType: "image/png" },
-  "/favicon-32.png": { file: "favicon-32.png", contentType: "image/png" },
-  "/apple-touch-icon.png": { file: "apple-touch-icon.png", contentType: "image/png" },
-  "/fonts/manrope-vietnamese.woff2": { file: "fonts/manrope-vietnamese.woff2", contentType: "font/woff2" },
-  "/fonts/manrope-latin-ext.woff2": { file: "fonts/manrope-latin-ext.woff2", contentType: "font/woff2" },
-  "/fonts/manrope-latin.woff2": { file: "fonts/manrope-latin.woff2", contentType: "font/woff2" },
+  "/assets/icon.svg": { file: "assets/icon.svg", contentType: "image/svg+xml" },
+  "/assets/favicon-16.png": { file: "assets/favicon-16.png", contentType: "image/png" },
+  "/assets/favicon-32.png": { file: "assets/favicon-32.png", contentType: "image/png" },
+  "/assets/apple-touch-icon.png": { file: "assets/apple-touch-icon.png", contentType: "image/png" },
+  "/assets/fonts/manrope-vietnamese.woff2": { file: "assets/fonts/manrope-vietnamese.woff2", contentType: "font/woff2" },
+  "/assets/fonts/manrope-latin-ext.woff2": { file: "assets/fonts/manrope-latin-ext.woff2", contentType: "font/woff2" },
+  "/assets/fonts/manrope-latin.woff2": { file: "assets/fonts/manrope-latin.woff2", contentType: "font/woff2" },
 };
 
 const HTML_SECURITY_HEADERS: Record<string, string> = {
