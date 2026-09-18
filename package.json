@@ -1,0 +1,14 @@
+{
+  "name": "tabsync",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch index.ts",
+    "start": "bun index.ts",
+    "test": "bun test api/test"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "latest"
+  }
+}

@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f4c430">
+  <title>Tab Sync</title>
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/favicon-16.png" sizes="16x16" type="image/png">
+  <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="/app.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="page">
+    <header id="hero" class="auth-shell">
+      <div class="hero-copy">
+        <a class="brand" href="/" aria-label="Tab Sync home">
+          <img class="brand-mark" src="/assets/icon.svg" width="30" height="30" alt="">
+          <span>Tab Sync</span>
+        </a>
+        <div class="hero-message">
+          <h1><span>Close it here.</span><span>Open it there.</span></h1>
+          <p class="lede">Tab Sync keeps your open tabs and history within reach across your desktop and mobile browsers.</p>
+          <p class="open-source-note">
+            Open source and ready to self-host.
+            <a href="https://github.com/tab-sync" target="_blank" rel="noopener noreferrer">View the code on GitHub <span aria-hidden="true">↗</span></a>
+          </p>
+        </div>
+        <div class="continuity-preview" aria-hidden="true">
+          <p class="continuity-caption">The same page, ready on your next screen.</p>
+          <div class="handoff-sequence">
+            <div class="handoff-endpoint">
+              <div class="continuity-device">
+                <span class="device-icon desktop-icon"></span>
+                <span><strong>Chrome</strong><small>macOS</small></span>
+              </div>
+              <div class="handoff-tab"><span class="tab-favicon">A</span><span><strong>A weekend in Arles</strong><small>afar.com</small></span></div>
+            </div>
+            <div class="handoff-transfer">
+              <span>Synced</span>
+              <i></i>
+            </div>
+            <div class="handoff-endpoint">
+              <div class="continuity-device">
+                <span class="device-icon phone-icon"></span>
+                <span><strong>Safari</strong><small>iOS</small></span>
+              </div>
+              <div class="handoff-tab"><span class="tab-favicon">A</span><span><strong>A weekend in Arles</strong><small>afar.com</small></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="auth-panel" id="auth-panel" aria-labelledby="auth-title">
+        <div class="auth-heading">
+          <div>
+            <h2 id="auth-title">Start to sync your tabs across browsers</h2>
+          </div>
+        </div>
+
+        <div class="auth-tabs" role="tablist" aria-label="Authentication mode">
+          <button type="button" class="tab is-active" data-auth-mode="login" aria-selected="true">Sign in</button>
+          <button type="button" class="tab" data-auth-mode="register" aria-selected="false">Create account</button>
+        </div>
+
+        <form id="auth-form" class="auth-form" method="post" action="/api/v1/auth/login" autocomplete="on" novalidate>
+          <label class="field">
+            <span>Username</span>
+            <input id="username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Enter your username" required minlength="3" maxlength="32">
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <input id="password" name="password" type="password" autocomplete="current-password" required maxlength="128">
+          </label>
+          <button id="auth-submit" class="button primary" type="submit">Sign in</button>
+        </form>
+
+        <p id="auth-status" class="status" role="status" aria-live="polite"></p>
+        <p class="auth-privacy">By continuing, you acknowledge the <a href="/privacy">Tab Sync Privacy Policy</a>.</p>
+        <a class="settings-link" href="/settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"></path><circle cx="16" cy="7" r="2"></circle><circle cx="8" cy="17" r="2"></circle></svg>
+          Server settings
+        </a>
+      </section>
+    </header>
+
+    <section id="landing-content" class="landing-content" aria-label="About Tab Sync">
+      <section class="landing-section how-it-works" aria-labelledby="how-it-works-title">
+        <div class="landing-section-intro">
+          <p class="eyebrow">How it works</p>
+          <h2 id="how-it-works-title">Get your tabs in sync in three steps</h2>
+        </div>
+        <ol class="steps-list">
+          <li class="step-card">
+            <span class="step-number" aria-hidden="true">01</span>
+            <div>
+              <h3>Create your free account</h3>
+              <p>Your tabs need a little place to meet.</p>
+            </div>
+          </li>
+          <li class="step-card">
+            <span class="step-number" aria-hidden="true">02</span>
+            <div>
+              <h3>Install Tab Sync</h3>
+              <p><a href="https://chromewebstore.google.com/detail/tab-sync/dhhandcnpaolgcadeoljdnecpgpkmkbh" target="_blank" rel="noopener noreferrer">Chrome Web Store</a> · <a href="https://addons.mozilla.org/en-GB/firefox/addon/tab-history-sync/" target="_blank" rel="noopener noreferrer">Firefox Add-ons</a> · <a href="https://github.com/tab-sync/extensions" target="_blank" rel="noopener noreferrer">Safari for macOS, iPhone, and iPad</a></p>
+            </div>
+          </li>
+          <li class="step-card">
+            <span class="step-number" aria-hidden="true">03</span>
+            <div>
+              <h3>Keep browsing</h3>
+              <p>That’s it. Open Tab Sync whenever you need to see your open tabs, neatly gathered from your connected browsers.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="landing-section testimonials" aria-labelledby="testimonials-title">
+        <div class="landing-section-intro">
+          <p class="eyebrow">Testimonials</p>
+          <h2 id="testimonials-title">Trusted by people I definitely know</h2>
+        </div>
+        <div class="testimonial-list">
+          <figure class="testimonial-card">
+            <blockquote>“Better than Facebook and X combined. Tab Sync changed my life.”</blockquote>
+            <figcaption>A totally real friend</figcaption>
+          </figure>
+          <figure class="testimonial-card">
+            <blockquote>“Everything my son does is great.”</blockquote>
+            <figcaption>My mom</figcaption>
+          </figure>
+          <figure class="testimonial-card">
+            <blockquote>“Meow meow.”</blockquote>
+            <figcaption>My cat</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="landing-section faq" aria-labelledby="faq-title">
+        <div class="landing-section-intro">
+          <p class="eyebrow">FAQ</p>
+          <h2 id="faq-title">A few useful details</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>How is my data protected?</summary>
+            <p>Tab Sync syncs the URLs, titles, and state of your regular open tabs and recent navigation, so it can show them on your other connected browsers. Private and incognito tabs are excluded. We do not read page contents, passwords, or form fields.</p>
+          </details>
+          <details>
+            <summary>Can I self-host Tab Sync?</summary>
+            <p>Yes. Tab Sync is open source and built to run on your own server. The repository includes the app, extensions, and deployment guidance to get you running.</p>
+          </details>
+          <details>
+            <summary>What’s the business model?</summary>
+            <p>Currently, there isn’t one. Tab Sync is free to use. We may introduce a paid plan later, but anyone using Tab Sync before that happens will be grandfathered in.</p>
+          </details>
+          <details>
+            <summary>Which browsers work?</summary>
+            <p>Chrome and Firefox have store extensions. Safari is available from the <a href="https://github.com/tab-sync/extensions" target="_blank" rel="noopener noreferrer">extensions repository</a>, including projects for macOS, iPhone, and iPad.</p>
+          </details>
+          <details>
+            <summary>Will it restore or close tabs for me?</summary>
+            <p>No. Tab Sync is deliberately read-only: it lets you find and open tabs from another browser without rearranging anything where you are.</p>
+          </details>
+        </div>
+      </section>
+    </section>
+
+    <footer id="landing-footer" class="landing-footer" aria-label="Tab Sync links">
+      <div class="landing-footer-downloads">
+        <span>Download Tab Sync:</span>
+        <a href="https://chromewebstore.google.com/detail/tab-sync/dhhandcnpaolgcadeoljdnecpgpkmkbh" target="_blank" rel="noopener noreferrer">Chrome</a>
+        <a href="https://addons.mozilla.org/en-GB/firefox/addon/tab-history-sync/" target="_blank" rel="noopener noreferrer">Firefox</a>
+        <a href="https://github.com/tab-sync/extensions" target="_blank" rel="noopener noreferrer">iPhone &amp; iPad</a>
+        <a href="https://github.com/tab-sync/extensions" target="_blank" rel="noopener noreferrer">Mac</a>
+      </div>
+      <div class="landing-footer-meta">
+        <span>Created by <a href="https://nkson.com" target="_blank" rel="noopener noreferrer">Son Nguyen Kim</a></span>
+        <a href="/privacy">Privacy policy</a>
+      </div>
+    </footer>
+
+    <main id="main-content" class="main" hidden>
+      <section class="toolbar card" aria-label="Session controls">
+        <div>
+          <h2 id="welcome">Welcome</h2>
+        </div>
+        <div class="toolbar-actions">
+          <a class="icon-button" href="/settings" aria-label="Server settings" title="Server settings">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 7h10M18 7h2M4 17h2M10 17h10"></path>
+              <circle cx="16" cy="7" r="2"></circle>
+              <circle cx="8" cy="17" r="2"></circle>
+            </svg>
+          </a>
+          <button id="refresh-button" class="icon-button" type="button" aria-label="Refresh" title="Refresh">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 11a8 8 0 1 0-2.34 5.66M20 5v6h-6"></path>
+            </svg>
+          </button>
+          <div id="account-menu-wrap" class="account-menu-wrap">
+            <button id="account-menu-button" class="icon-button" type="button" aria-label="More options" title="More options" aria-expanded="false" aria-controls="account-menu">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="5" cy="12" r="1.5"></circle>
+                <circle cx="12" cy="12" r="1.5"></circle>
+                <circle cx="19" cy="12" r="1.5"></circle>
+              </svg>
+            </button>
+            <div id="account-menu" class="account-menu" hidden>
+              <button id="sign-out-button" class="account-menu-item" type="button">Sign out</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="signup-onboarding" class="signup-onboarding card" aria-labelledby="signup-onboarding-title" hidden>
+        <div class="signup-onboarding-intro">
+          <p class="eyebrow">Next step</p>
+          <h2 id="signup-onboarding-title">Install a browser extension</h2>
+          <p class="muted">Choose the browser you want to connect to Tab Sync.</p>
+        </div>
+
+        <div class="signup-browser-options">
+          <article class="signup-browser-option">
+            <h3>Chrome</h3>
+            <p>Download and install the Chrome extension.</p>
+            <a class="button secondary" href="https://chromewebstore.google.com/detail/tab-sync/dhhandcnpaolgcadeoljdnecpgpkmkbh" target="_blank" rel="noopener noreferrer">Download for Chrome</a>
+          </article>
+
+          <article class="signup-browser-option">
+            <h3>Firefox</h3>
+            <p>Download and install the Firefox extension.</p>
+            <a class="button secondary" href="https://addons.mozilla.org/en-GB/firefox/addon/tab-history-sync/" target="_blank" rel="noopener noreferrer">Download for Firefox</a>
+          </article>
+
+          <article class="signup-browser-option safari-install">
+            <h3>Safari on macOS</h3>
+            <ol>
+              <li>Clone the <a href="https://github.com/tab-sync/extensions" target="_blank" rel="noopener noreferrer">extensions repository</a>.</li>
+              <li>Open <code>safari/Tab Sync for macOS/Tab Sync for macOS.xcodeproj</code> in Xcode.</li>
+              <li>Select your development team, choose <strong>My Mac</strong>, then run the project.</li>
+              <li>Enable Tab Sync in Safari’s extension settings and sign in from the toolbar.</li>
+            </ol>
+          </article>
+
+          <article class="signup-browser-option safari-install">
+            <h3>Safari on iPhone or iPad</h3>
+            <ol>
+              <li>Clone the <a href="https://github.com/tab-sync/extensions" target="_blank" rel="noopener noreferrer">extensions repository</a>.</li>
+              <li>Open <code>safari/Tab Sync/Tab Sync.xcodeproj</code> in Xcode.</li>
+              <li>Connect your iPhone, select it as the destination, and run the project.</li>
+              <li>Enable Tab Sync in Safari’s extension settings.</li>
+            </ol>
+            <p class="signup-install-note">Publishing a Safari extension requires a paid Apple Developer subscription. I’m skipping that cost for now, so Safari is installed from source.</p>
+          </article>
+        </div>
+
+        <p class="signup-support">
+          Need help? <a href="https://github.com/tab-sync/extensions/issues" target="_blank" rel="noopener noreferrer">Ask on GitHub</a>
+          or email <a href="mailto:tabsync@nkson.com">tabsync@nkson.com</a>.
+        </p>
+      </section>
+
+      <p id="page-status" class="status page-status" role="status" aria-live="polite" hidden></p>
+
+      <section class="card device-workspace" aria-label="Devices">
+        <p class="eyebrow">Devices</p>
+
+        <p id="devices-empty" class="empty-state" hidden>No devices have reported state yet.</p>
+        <div id="device-tabs" class="device-tabs" role="tablist" aria-label="Synced devices"></div>
+
+        <section id="device-panel" class="device-panel" role="tabpanel" tabindex="0" hidden>
+          <section class="device-section" aria-labelledby="open-tabs-title">
+            <div class="section-head compact">
+              <h4 id="open-tabs-title">Current open tabs</h4>
+              <p id="open-tabs-truncated" class="pill" aria-live="polite" hidden></p>
+            </div>
+            <p id="open-tabs-empty" class="empty-state" hidden>No open tabs were captured for this device.</p>
+            <ol id="open-tabs-list" class="open-tabs" aria-live="polite"></ol>
+          </section>
+
+          <section class="device-section" aria-labelledby="history-title">
+            <div class="section-head compact">
+              <h4 id="history-title">History</h4>
+              <p id="history-count" class="pill" aria-live="polite"></p>
+            </div>
+
+            <p id="history-empty" class="empty-state" hidden>No history events have loaded for this device.</p>
+            <div id="history-table-wrap" class="history-table-wrap">
+              <table class="history-table">
+                <colgroup>
+                  <col class="history-time-column">
+                  <col class="history-url-column">
+                  <col>
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th scope="col">Time</th>
+                    <th scope="col">Website URL</th>
+                    <th scope="col">Website title</th>
+                  </tr>
+                </thead>
+                <tbody id="history-body"></tbody>
+              </table>
+            </div>
+
+            <div class="load-more-row">
+              <button id="load-more-button" class="button secondary" type="button">Load more</button>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
