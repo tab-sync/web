@@ -24,6 +24,7 @@ const elements = {
   authForm: document.getElementById("auth-form"),
   authModeButtons: Array.from(document.querySelectorAll("[data-auth-mode]")),
   authStatus: document.getElementById("auth-status"),
+  authPrivacy: document.getElementById("auth-privacy"),
   authTitle: document.getElementById("auth-title"),
   authSubmit: document.getElementById("auth-submit"),
   username: document.getElementById("username"),
@@ -144,6 +145,7 @@ function setAuthMode(mode) {
     button.setAttribute("aria-selected", String(active));
   }
   elements.authSubmit.textContent = mode === "login" ? "Sign in" : "Create account";
+  elements.authPrivacy.hidden = mode === "login";
   elements.authTitle.textContent = "Start syncing your tabs"
   elements.authForm.action = `${apiRoot()}/auth/${mode === "login" ? "login" : "register"}`;
   elements.authForm.dataset.formType = mode === "login" ? "login" : "register";
