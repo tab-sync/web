@@ -83,6 +83,16 @@ Returns:
 { "user": { "id": "usr_...", "username": "alice" } }
 ```
 
+### `DELETE /api/v1/account`
+
+Requires authentication and the account's current password in the request body. Permanently deletes the account, its sessions, devices, open tabs, and history.
+
+```json
+{ "password": "correct horse battery" }
+```
+
+Returns `204`.
+
 ## Devices
 
 ### `POST /api/v1/devices`

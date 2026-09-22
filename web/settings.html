@@ -32,6 +32,22 @@
         </div>
       </form>
       <p id="settings-status" class="status" role="status" aria-live="polite" hidden></p>
+
+      <section class="danger-zone" aria-labelledby="delete-account-title">
+        <p class="eyebrow">Danger zone</p>
+        <h2 id="delete-account-title">Delete account and data</h2>
+        <p>Delete your account, synced devices, open tabs, history, and active sessions permanently.</p>
+        <form id="delete-account-form" class="auth-form settings-form" novalidate>
+          <label class="field">
+            <span>Current password</span>
+            <input id="delete-account-password" name="delete-account-password" type="password" autocomplete="current-password" required>
+          </label>
+          <div class="settings-actions">
+            <button id="delete-account-submit" class="button danger" type="submit">Delete account and data</button>
+          </div>
+        </form>
+        <p id="delete-account-status" class="status" role="status" aria-live="polite" hidden></p>
+      </section>
       <p class="settings-privacy"><a href="/privacy">Privacy Policy</a></p>
     </main>
   </div>

@@ -81,6 +81,32 @@ describe("authentication", () => {
     expect(user.password_hash).not.toContain("correct horse battery");
     expect(Buffer.from(session.token_hash).toString()).not.toContain(token);
   });
+
+  test("deletes only the confirmed account and all of its data", async () => {
+    const alice = await register("alice");
+    const aliceSecondSession = (await request("POST", "/api/v1/auth/login", { username: "alice", password: "correct horse battery" })).body.token as string;
+    const aliceDevice = await addDevice(alice);
+    await request("PUT", `/api/v1/devices/${aliceDevice}/tabs`, {
+      revision: 1,
+      observedAt: "2026-09-08T10:00:00.000Z",
+      tabs: [{ browserTabId: 7, windowId: 1, index: 0, active: true, pinned: false, url: "https://example.com", title: "Example" }],
+    }, alice);
+    await request("POST", `/api/v1/devices/${aliceDevice}/history`, {
+      events: [{ eventId: "alice-event", browserTabId: 7, kind: "committed", url: "https://example.com", title: "Example", visitedAt: "2026-09-08T10:00:00.000Z" }],
+    }, alice);
+    const bob = await register("bob");
+
+    expect(await request("DELETE", "/api/v1/account", { password: "wrong" }, alice)).toMatchObject({ status: 401 });
+    expect(await request("GET", "/api/v1/me", undefined, alice)).toMatchObject({ status: 200 });
+    expect(await request("DELETE", "/api/v1/account", { password: "correct horse battery" }, alice)).toMatchObject({ status: 204 });
+    expect(await request("GET", "/api/v1/me", undefined, aliceSecondSession)).toMatchObject({ status: 401 });
+    expect(await request("GET", "/api/v1/me", undefined, bob)).toMatchObject({ status: 200 });
+    expect(database.query("SELECT COUNT(*) AS count FROM users").get()).toEqual({ count: 1 });
+    expect(database.query("SELECT COUNT(*) AS count FROM devices").get()).toEqual({ count: 0 });
+    expect(database.query("SELECT COUNT(*) AS count FROM open_tabs").get()).toEqual({ count: 0 });
+    expect(database.query("SELECT COUNT(*) AS count FROM history_entries").get()).toEqual({ count: 0 });
+    expect(database.query("SELECT COUNT(*) AS count FROM auth_sessions").get()).toEqual({ count: 1 });
+  });
 });
 
 describe("devices and tabs", () => {

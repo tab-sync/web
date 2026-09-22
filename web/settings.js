@@ -5,6 +5,10 @@ const DEFAULT_SERVER_URL = window.location.origin;
 const form = document.getElementById("settings-form");
 const serverUrlInput = document.getElementById("server-url");
 const status = document.getElementById("settings-status");
+const deleteAccountForm = document.getElementById("delete-account-form");
+const deleteAccountPassword = document.getElementById("delete-account-password");
+const deleteAccountSubmit = document.getElementById("delete-account-submit");
+const deleteAccountStatus = document.getElementById("delete-account-status");
 
 function normalizeServerUrl(value) {
   const url = new URL(value.trim());
@@ -32,6 +36,16 @@ function setStatus(message, error = false) {
   status.classList.toggle("is-error", error);
 }
 
+function setDeleteAccountStatus(message, error = false) {
+  deleteAccountStatus.textContent = message;
+  deleteAccountStatus.hidden = !message;
+  deleteAccountStatus.classList.toggle("is-error", error);
+}
+
+function storedServerUrl() {
+  return normalizeServerUrl(localStorage.getItem(SERVER_URL_KEY) || DEFAULT_SERVER_URL);
+}
+
 serverUrlInput.value = localStorage.getItem(SERVER_URL_KEY) || DEFAULT_SERVER_URL;
 
 form.addEventListener("submit", (event) => {
@@ -47,5 +61,40 @@ form.addEventListener("submit", (event) => {
     setStatus(serverUrl === previous ? "Server settings saved." : "Server changed. Sign in to continue.");
   } catch (error) {
     setStatus(error.message, true);
+  }
+});
+
+deleteAccountForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  if (!deleteAccountForm.reportValidity()) return;
+
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!token) {
+    setDeleteAccountStatus("Sign in before deleting your account.", true);
+    return;
+  }
+
+  deleteAccountSubmit.disabled = true;
+  setDeleteAccountStatus("Deleting your account and data…");
+  try {
+    const response = await fetch(`${storedServerUrl()}/api/v1/account`, {
+      method: "DELETE",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ password: deleteAccountPassword.value }),
+    });
+    if (!response.ok) {
+      const data = await response.json().catch(() => null);
+      throw new Error(data?.error?.message || "Could not delete your account.");
+    }
+    localStorage.removeItem(TOKEN_KEY);
+    deleteAccountForm.reset();
+    deleteAccountForm.hidden = true;
+    setDeleteAccountStatus("Your account and data have been deleted.");
+  } catch (error) {
+    setDeleteAccountStatus(error.message, true);
+    deleteAccountSubmit.disabled = false;
   }
 });

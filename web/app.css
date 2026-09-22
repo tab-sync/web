@@ -44,6 +44,7 @@
   --success-soft: rgba(36, 122, 88, 0.12);
   --warning: #8a5a08;
   --warning-soft: rgba(138, 90, 8, 0.12);
+  --danger: #b84235;
   --shadow: 0 14px 38px rgba(54, 45, 15, 0.09);
   --radius: 20px;
   --radius-sm: 14px;
@@ -912,6 +913,16 @@ h4 {
   background: rgba(255, 255, 255, 0.6);
 }
 
+.button.danger {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: white;
+}
+
+.button.danger:hover:not(:disabled) {
+  background: #96352b;
+}
+
 .status {
   min-height: 1.5rem;
   margin: 12px 0 0;
@@ -1143,6 +1154,23 @@ h4 {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+}
+
+.danger-zone {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+
+.danger-zone h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  letter-spacing: -0.03em;
+}
+
+.danger-zone > p:not(.eyebrow):not(.status) {
+  margin: 8px 0 18px;
+  color: var(--muted);
 }
 
 .pill {

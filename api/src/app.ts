@@ -282,6 +282,20 @@ export function createApp({ database, now = Date.now, id = randomUUID, token }: 
         return response({ user: { id: user.id, username: user.username } });
       }
 
+      if (request.method === "DELETE" && path === `${API_PREFIX}/account`) {
+        const user = authenticate(request);
+        const body = await readJson(request);
+        const password = requiredString(body, "password", 128);
+        const account = database
+          .query("SELECT password_hash FROM users WHERE id = ?")
+          .get(user.id) as { password_hash: string } | null;
+        if (!account || !(await Bun.password.verify(password, account.password_hash))) {
+          throw new HttpError(401, "INVALID_CREDENTIALS", "invalid password");
+        }
+        database.query("DELETE FROM users WHERE id = ?").run(user.id);
+        return new Response(null, { status: 204, headers: corsHeaders });
+      }
+
       if (request.method === "POST" && path === `${API_PREFIX}/devices`) {
         const user = authenticate(request);
         const body = await readJson(request);
