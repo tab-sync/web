@@ -179,11 +179,16 @@ code {
   padding: 32px 0 64px;
 }
 
+body.signed-in .page {
+  padding-top: 12px;
+}
+
 .auth-shell {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
-  min-height: min(720px, calc(100vh - 64px));
+  grid-template-areas: "copy preview";
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 1fr);
+  min-height: min(660px, calc(100vh - 64px));
   overflow: hidden;
   border: 1px solid var(--border-strong);
   border-radius: 0;
@@ -375,11 +380,12 @@ code {
 }
 
 .hero-copy {
+  grid-area: copy;
   display: flex;
   min-width: 0;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 38px clamp(32px, 5vw, 58px) 248px 38px;
+  padding: 38px 38px 64px clamp(32px, 5vw, 58px);
   background: transparent;
   color: var(--ink);
 }
@@ -406,7 +412,12 @@ code {
 }
 
 .hero-message {
-  margin: clamp(78px, 13vh, 108px) 0 0;
+  margin: clamp(58px, 9vh, 80px) 0 0;
+}
+
+.hero-message h1 {
+  font-size: clamp(2.75rem, 4vw, 3.4rem);
+  line-height: 1.05;
 }
 
 .trust-note {
@@ -416,16 +427,22 @@ code {
 }
 
 .continuity-preview {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 2;
-  width: auto;
-  min-height: 218px;
-  padding: 28px 38px 32px;
-  border: 0;
+  grid-area: preview;
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  place-items: center;
+  padding: 40px;
   background: var(--ink);
+}
+
+.continuity-preview img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 560px;
+  height: auto;
+  object-fit: contain;
 }
 
 .continuity-caption {
@@ -702,7 +719,7 @@ h4 {
 
 .open-source-note {
   max-width: 40ch;
-  margin: 30px 0 0;
+  margin: 22px 0 0;
   padding-top: 18px;
   border-top: 1px solid var(--border);
   color: var(--muted);
@@ -718,17 +735,24 @@ h4 {
   padding: 22px;
 }
 
+.auth-section {
+  padding: 64px 0 0;
+}
+
 .auth-panel {
+  position: relative;
   display: flex;
+  width: 100%;
   min-width: 0;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 38px 38px 248px clamp(32px, 5vw, 58px);
-  border-left: 0;
+  padding: 38px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
 }
 
 .auth-heading {
-  margin-top: clamp(82px, 13vh, 112px);
+  margin-top: 0;
   margin-bottom: 30px;
 }
 
@@ -1204,7 +1228,7 @@ h4 {
   display: flex;
   gap: 8px;
   max-width: 100%;
-  margin: 0 -4px 18px;
+  margin: 0 -4px 8px;
   padding: 4px;
   overflow-x: auto;
   scrollbar-width: thin;
@@ -1269,6 +1293,22 @@ h4 {
   border-radius: var(--radius-sm);
   background: var(--surface-strong);
 }
+
+.device-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.device-actions h4 {
+  margin: 0 0 4px;
+}
+
+.device-actions .button {
+  flex: 0 0 auto;
+}
+
 
 .chip-row {
   display: flex;
@@ -1436,7 +1476,11 @@ h4 {
 
 @media (max-width: 780px) {
   .auth-shell {
+    grid-template-areas:
+      "copy"
+      "preview";
     grid-template-columns: 1fr;
+    grid-template-rows: auto;
     min-height: 0;
   }
 
@@ -1451,15 +1495,22 @@ h4 {
   .continuity-preview {
     position: static;
     width: auto;
-    min-height: 0;
-    margin: auto calc(-1 * clamp(32px, 5vw, 58px)) 0 -38px;
-    padding: 26px;
+    min-height: 440px;
+    margin: 0;
+    padding: 32px;
+  }
+
+  .continuity-preview img {
+    max-height: 376px;
+  }
+
+  .auth-section {
+    padding-top: 52px;
   }
 
   .auth-panel {
+    width: 100%;
     padding: 38px;
-    border-top: 1px solid var(--border);
-    border-left: 0;
   }
 
   .auth-heading {
@@ -1515,8 +1566,7 @@ h4 {
   }
 
   .continuity-preview {
-    margin-right: -26px;
-    margin-left: -26px;
+    margin: 0;
   }
 
   .hero-message {
@@ -1644,9 +1694,13 @@ h4 {
   }
 
   .continuity-preview {
-    margin-right: -20px;
-    margin-left: -20px;
-    padding: 22px 20px 24px;
+    min-height: 360px;
+    margin: 0;
+    padding: 22px 20px;
+  }
+
+  .continuity-preview img {
+    max-height: 316px;
   }
 
   .handoff-sequence {
@@ -1682,6 +1736,7 @@ h4 {
   }
 
   .auth-panel {
+    width: 100%;
     padding: 28px 20px;
   }
 

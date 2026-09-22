@@ -20,6 +20,7 @@ const elements = {
   hero: document.getElementById("hero"),
   landingContent: document.getElementById("landing-content"),
   landingFooter: document.getElementById("landing-footer"),
+  authSection: document.querySelector(".auth-section"),
   authPanel: document.getElementById("auth-panel"),
   authForm: document.getElementById("auth-form"),
   authModeButtons: Array.from(document.querySelectorAll("[data-auth-mode]")),
@@ -41,6 +42,7 @@ const elements = {
   devicesEmpty: document.getElementById("devices-empty"),
   deviceTabs: document.getElementById("device-tabs"),
   devicePanel: document.getElementById("device-panel"),
+  removeDeviceButton: document.getElementById("remove-device-button"),
   openTabsEmpty: document.getElementById("open-tabs-empty"),
   openTabsTruncated: document.getElementById("open-tabs-truncated"),
   openTabsList: document.getElementById("open-tabs-list"),
@@ -106,6 +108,7 @@ function setBusy(isBusy) {
   elements.accountMenuButton.disabled = isBusy;
   elements.signOutButton.disabled = isBusy;
   elements.loadMoreButton.disabled = isBusy || state.loadingMore || !state.nextCursor;
+  elements.removeDeviceButton.disabled = isBusy;
   elements.authSubmit.disabled = isBusy;
   for (const button of elements.authModeButtons) {
     button.disabled = isBusy;
@@ -121,18 +124,22 @@ function setAccountMenu(open) {
 }
 
 function showAuth(message = "", kind = "") {
+  document.body.classList.remove("signed-in");
   elements.hero.hidden = false;
   elements.landingContent.hidden = false;
   elements.landingFooter.hidden = false;
+  elements.authSection.hidden = false;
   elements.authPanel.hidden = false;
   elements.main.hidden = true;
   setMessage(elements.authStatus, message, kind);
 }
 
 function showApp() {
+  document.body.classList.add("signed-in");
   elements.hero.hidden = true;
   elements.landingContent.hidden = true;
   elements.landingFooter.hidden = true;
+  elements.authSection.hidden = true;
   elements.authPanel.hidden = true;
   elements.main.hidden = false;
 }
@@ -381,6 +388,34 @@ async function selectDevice(deviceId) {
   await refreshState();
 }
 
+async function removeSelectedDevice() {
+  const device = state.devices.find((item) => item.id === state.selectedDeviceId);
+  if (!device) return;
+  if (!window.confirm(`Remove ${deviceName(device)}? Its synced tabs and history will be deleted, and its browser extension will be signed out.`)) {
+    return;
+  }
+
+  setBusy(true);
+  setMessage(elements.pageStatus, "Removing device…");
+  try {
+    await requestJson(`/devices/${encodeURIComponent(device.id)}`, { method: "DELETE" });
+    state.selectedDeviceId = null;
+    state.history = [];
+    state.historyTotal = 0;
+    state.nextCursor = null;
+    await refreshState({ quiet: true });
+    setMessage(elements.pageStatus, `${deviceName(device)} was removed.`);
+  } catch (error) {
+    if (error.status === 401) {
+      await signOut({ silent: true, message: "Your session expired. Please sign in again." });
+      return;
+    }
+    setMessage(elements.pageStatus, error.message, "error");
+  } finally {
+    setBusy(false);
+  }
+}
+
 async function restoreSession() {
   if (!state.token) {
     showAuth();
@@ -475,6 +510,7 @@ function bindEvents() {
     setAccountMenu(elements.accountMenu.hidden);
   });
   elements.signOutButton.addEventListener("click", () => signOut({ message: "Signed out." }));
+  elements.removeDeviceButton.addEventListener("click", removeSelectedDevice);
   elements.loadMoreButton.addEventListener("click", () => refreshState({ appendHistory: true }));
   document.addEventListener("click", (event) => {
     if (!elements.accountMenu.hidden && !elements.accountMenuWrap.contains(event.target)) {

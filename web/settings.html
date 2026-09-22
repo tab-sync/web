@@ -15,25 +15,24 @@
 </head>
 <body>
   <div class="page settings-shell">
-    <main class="card settings-card" aria-labelledby="settings-title">
+    <main class="card settings-card" aria-label="Settings">
       <a class="back-link" href="/">← Back to Tab Sync</a>
-      <p class="eyebrow">Settings</p>
-      <h1 id="settings-title" class="settings-title">Server</h1>
-      <p class="lede settings-lede">Choose the Tab Sync server this browser connects to.</p>
 
-      <form id="settings-form" class="auth-form settings-form" novalidate>
-        <label class="field">
-          <span>Server URL</span>
-          <input id="server-url" name="server-url" type="url" inputmode="url" autocomplete="url" autocapitalize="none" spellcheck="false" required placeholder="https://tabs.example.com">
-        </label>
-        <p class="settings-hint">Use HTTPS for a remote server. Changing servers signs you out in this browser.</p>
-        <div class="settings-actions">
-          <button class="button primary" type="submit">Save</button>
-        </div>
-      </form>
-      <p id="settings-status" class="status" role="status" aria-live="polite" hidden></p>
+      <section id="server-settings">
+        <form id="settings-form" class="auth-form settings-form" novalidate>
+          <label class="field">
+            <span>Server URL</span>
+            <input id="server-url" name="server-url" type="url" inputmode="url" autocomplete="url" autocapitalize="none" spellcheck="false" required placeholder="https://tabs.example.com">
+          </label>
+          <p class="settings-hint">Use HTTPS for a remote server. Changing servers signs you out in this browser.</p>
+          <div class="settings-actions">
+            <button class="button primary" type="submit">Save</button>
+          </div>
+        </form>
+        <p id="settings-status" class="status" role="status" aria-live="polite" hidden></p>
+      </section>
 
-      <section class="danger-zone" aria-labelledby="delete-account-title">
+      <section id="account-settings" class="danger-zone" aria-labelledby="delete-account-title" hidden>
         <p class="eyebrow">Danger zone</p>
         <h2 id="delete-account-title">Delete account and data</h2>
         <p>Delete your account, synced devices, open tabs, history, and active sessions permanently.</p>

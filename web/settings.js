@@ -5,6 +5,8 @@ const DEFAULT_SERVER_URL = window.location.origin;
 const form = document.getElementById("settings-form");
 const serverUrlInput = document.getElementById("server-url");
 const status = document.getElementById("settings-status");
+const serverSettings = document.getElementById("server-settings");
+const accountSettings = document.getElementById("account-settings");
 const deleteAccountForm = document.getElementById("delete-account-form");
 const deleteAccountPassword = document.getElementById("delete-account-password");
 const deleteAccountSubmit = document.getElementById("delete-account-submit");
@@ -46,10 +48,20 @@ function storedServerUrl() {
   return normalizeServerUrl(localStorage.getItem(SERVER_URL_KEY) || DEFAULT_SERVER_URL);
 }
 
+function showSignedInSettings(isSignedIn) {
+  serverSettings.hidden = isSignedIn;
+  accountSettings.hidden = !isSignedIn;
+}
+
 serverUrlInput.value = localStorage.getItem(SERVER_URL_KEY) || DEFAULT_SERVER_URL;
+showSignedInSettings(Boolean(localStorage.getItem(TOKEN_KEY)));
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
+  if (localStorage.getItem(TOKEN_KEY)) {
+    setStatus("Sign out before changing the server.", true);
+    return;
+  }
   if (!form.reportValidity()) return;
 
   try {
@@ -91,8 +103,8 @@ deleteAccountForm.addEventListener("submit", async (event) => {
     }
     localStorage.removeItem(TOKEN_KEY);
     deleteAccountForm.reset();
-    deleteAccountForm.hidden = true;
-    setDeleteAccountStatus("Your account and data have been deleted.");
+    showSignedInSettings(false);
+    setStatus("Your account and data have been deleted.");
   } catch (error) {
     setDeleteAccountStatus(error.message, true);
     deleteAccountSubmit.disabled = false;

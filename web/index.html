@@ -23,38 +23,21 @@
           <span>Tab Sync</span>
         </a>
         <div class="hero-message">
-          <h1><span>Close it here.</span><span>Open it there.</span></h1>
-          <p class="lede">Tab Sync keeps your open tabs and history within reach across your desktop and mobile browsers.</p>
+          <h1>Reliably sync your open tabs across your browsers.</h1>
+          <p class="lede">Supports Chrome, Firefox, Safari for Mac, and Safari for iOS.</p>
           <p class="open-source-note">
             Open source and ready to self-host.
-            <a href="https://github.com/tab-sync" target="_blank" rel="noopener noreferrer">View the code on GitHub <span aria-hidden="true">↗</span></a>
+            <a href="https://github.com/orgs/tab-sync/repositories" target="_blank" rel="noopener noreferrer">View the code on GitHub <span aria-hidden="true">↗</span></a>
           </p>
-        </div>
-        <div class="continuity-preview" aria-hidden="true">
-          <p class="continuity-caption">The same page, ready on your next screen.</p>
-          <div class="handoff-sequence">
-            <div class="handoff-endpoint">
-              <div class="continuity-device">
-                <span class="device-icon desktop-icon"></span>
-                <span><strong>Chrome</strong><small>macOS</small></span>
-              </div>
-              <div class="handoff-tab"><span class="tab-favicon">A</span><span><strong>A weekend in Arles</strong><small>afar.com</small></span></div>
-            </div>
-            <div class="handoff-transfer">
-              <span>Synced</span>
-              <i></i>
-            </div>
-            <div class="handoff-endpoint">
-              <div class="continuity-device">
-                <span class="device-icon phone-icon"></span>
-                <span><strong>Safari</strong><small>iOS</small></span>
-              </div>
-              <div class="handoff-tab"><span class="tab-favicon">A</span><span><strong>A weekend in Arles</strong><small>afar.com</small></span></div>
-            </div>
-          </div>
         </div>
       </div>
 
+      <div class="continuity-preview" aria-hidden="true">
+        <img src="/assets/illustrations/device-tab-sync-portrait.png" alt="">
+      </div>
+    </header>
+
+    <section class="auth-section" aria-label="Sign in or create an account">
       <section class="auth-panel" id="auth-panel" aria-labelledby="auth-title">
         <div class="auth-heading">
           <div>
@@ -86,7 +69,7 @@
           Server settings
         </a>
       </section>
-    </header>
+    </section>
 
     <section id="landing-content" class="landing-content" aria-label="About Tab Sync">
       <section class="landing-section how-it-works" aria-labelledby="how-it-works-title">
@@ -311,6 +294,14 @@
             <div class="load-more-row">
               <button id="load-more-button" class="button secondary" type="button">Load more</button>
             </div>
+          </section>
+
+          <section class="device-section device-actions" aria-label="Device actions">
+            <div>
+              <h4>Remove this device</h4>
+              <p class="muted">This deletes its synced data and signs the browser extension out.</p>
+            </div>
+            <button id="remove-device-button" class="button danger" type="button">Remove device</button>
           </section>
         </section>
       </section>

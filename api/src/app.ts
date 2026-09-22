@@ -315,6 +315,7 @@ export function createApp({ database, now = Date.now, id = randomUUID, token }: 
           database
             .query("UPDATE devices SET display_name = ?, browser = ?, platform = ?, extension_version = ?, last_seen_at = ? WHERE id = ?")
             .run(displayName, browser, platform, extensionVersion, seenAt, existing.id);
+          database.query("UPDATE auth_sessions SET device_id = ? WHERE token_hash = ?").run(existing.id, user.tokenHash);
           return response({ device: { id: existing.id, installationId, displayName, browser, platform, extensionVersion, tabsRevision: existing.tabs_revision, lastSeenAt: iso(seenAt), createdAt: iso(existing.created_at) } });
         }
         const deviceId = `dev_${id()}`;
@@ -322,6 +323,7 @@ export function createApp({ database, now = Date.now, id = randomUUID, token }: 
           .query(`INSERT INTO devices(id, user_id, installation_id, display_name, browser, platform, extension_version, last_seen_at, created_at)
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`)
           .run(deviceId, user.id, installationId, displayName, browser, platform, extensionVersion, seenAt, seenAt);
+        database.query("UPDATE auth_sessions SET device_id = ? WHERE token_hash = ?").run(deviceId, user.tokenHash);
         return response({ device: { id: deviceId, installationId, displayName, browser, platform, extensionVersion, tabsRevision: 0, lastSeenAt: iso(seenAt), createdAt: iso(seenAt) } }, 201);
       }
 
@@ -506,7 +508,15 @@ export function createApp({ database, now = Date.now, id = randomUUID, token }: 
       if (request.method === "DELETE" && deviceMatch) {
         const user = authenticate(request);
         const device = ownedDevice(decodeURIComponent(deviceMatch[1]!), user.id);
-        database.query("DELETE FROM devices WHERE id = ?").run(device.id);
+        database.exec("BEGIN IMMEDIATE");
+        try {
+          database.query("DELETE FROM auth_sessions WHERE device_id = ?").run(device.id);
+          database.query("DELETE FROM devices WHERE id = ?").run(device.id);
+          database.exec("COMMIT");
+        } catch (error) {
+          database.exec("ROLLBACK");
+          throw error;
+        }
         return new Response(null, { status: 204, headers: corsHeaders });
       }
 

@@ -144,14 +144,17 @@ describe("devices and tabs", () => {
     expect(state.body.devices[0].openTabs[0].url).toBe("https://example.com/a?q=1#x");
   });
 
-  test("isolates device ownership and cascades device deletion", async () => {
+  test("isolates device ownership, cascades device deletion, and revokes its extension session", async () => {
     const alice = await register("alice");
     const aliceDevice = await addDevice(alice);
+    const dashboard = (await request("POST", "/api/v1/auth/login", { username: "alice", password: "correct horse battery" })).body.token as string;
     const bob = await register("bob");
     expect(await request("GET", `/api/v1/state?deviceId=${aliceDevice}`, undefined, bob)).toMatchObject({ status: 404 });
     expect(await request("DELETE", `/api/v1/devices/${aliceDevice}`, undefined, bob)).toMatchObject({ status: 404 });
-    expect(await request("DELETE", `/api/v1/devices/${aliceDevice}`, undefined, alice)).toMatchObject({ status: 204 });
-    expect((await request("GET", "/api/v1/devices", undefined, alice)).body.devices).toHaveLength(0);
+    expect(await request("DELETE", `/api/v1/devices/${aliceDevice}`, undefined, dashboard)).toMatchObject({ status: 204 });
+    expect(await request("GET", "/api/v1/me", undefined, alice)).toMatchObject({ status: 401 });
+    expect(await request("GET", "/api/v1/me", undefined, dashboard)).toMatchObject({ status: 200 });
+    expect((await request("GET", "/api/v1/devices", undefined, dashboard)).body.devices).toHaveLength(0);
   });
 });
 

@@ -139,6 +139,8 @@ Deletes an owned device.
 
 It also deletes that device's tabs and history.
 
+It revokes sessions used by that browser installation, so its extension is signed out on its next request.
+
 Returns `204`.
 
 A missing or unowned device returns `404`.
